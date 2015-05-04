@@ -1,0 +1,200 @@
+REBOL [title: "Etsy"]
+
+do/args http://reb4.me/r/etsy.r context [
+    Consumer-Key: #<type_your_key_here>
+    Consumer-Secret: #<typ_your_secret_here>
+    User-Store: %etsyusers
+    Scope: [listings_w listings_r listings_d]  ; edit permissions here
+    Sandbox: false                      ; change to true when approved
+]
+
+coupon-text: {
+    ** SALE ** Enter the coupon code &quot;893894&quot; at checkout to
+    receive 10% off your order &lt;br&gt;&lt;br&gt;
+}
+
+replace-items: does [
+    found-items/text: copy {}  show found-items
+    replaced-items/text: copy {}  show replaced-items
+    found: copy []
+    x: get in (etsy/listings []) 'results              
+    for i 1 (length? x) 1 [  
+        if find (get in x/:i 'description) search-text/text [ 
+            insert head found-items/text copy rejoin [
+                ; {"} search-text/text {" found in:  } 
+                (get in x/:i 'title) newline
+            ] 
+            show found-items
+            append found (get in x/:i 'listing_id)
+            append found (get in x/:i 'description)
+            append found (get in x/:i 'title)
+            append found (get in x/:i 'state)
+        ]
+    ]
+    foreach [lstngid dscrptn titl state] found [
+        either state <> "active" [
+            insert head replaced-items/text copy rejoin [
+                titl { was NOT replaced (listing inactive)^/}
+            ]
+            show replaced-items
+        ][
+            etsy/api-call/with put rejoin [
+                %listings/ lstngid
+            ] [
+                description: (
+                    replace/all dscrptn search-text/text replace-text/text
+                )
+            ]
+            insert head replaced-items/text copy rejoin [titl {^/}]
+            show replaced-items
+        ]
+    ]
+    ; alert "Done"
+]
+
+sale: func [add-or-remove] [
+    coupon-code: copy request-text/title/default"Coupon Text:" coupon-text
+    found-items/text: copy {}  show found-items
+    replaced-items/text: copy {}  show replaced-items
+    found: copy []
+    x: get in (etsy/listings []) 'results
+    focus found-items           
+    for i 1 (length? x) 1 [  
+        insert head found-items/text copy rejoin [
+            (get in x/:i 'title) newline
+        ] 
+        show found-items
+        append found (get in x/:i 'listing_id)
+        append found (get in x/:i 'description)
+        append found (get in x/:i 'title)
+        append found (get in x/:i 'state)
+    ]
+    foreach [lstngid dscrptn titl state] found [
+        either state <> "active" [
+            insert head replaced-items/text copy rejoin [
+                titl { was NOT replaced (listing inactive)^/}
+            ]
+            show replaced-items
+        ][
+            etsy/api-call/with put rejoin [
+                %listings/ lstngid
+            ] either add-or-remove = true [
+                [
+                    title: rejoin ["SALE-" titl]
+                    description: rejoin [coupon-code dscrptn]
+                ]
+            ] [
+                [
+                    title: replace titl "SALE-" ""
+                    description: replace dscrptn rejoin [coupon-code] ""
+                ]
+            ]
+            insert head replaced-items/text copy rejoin [titl {^/}]
+            show replaced-items
+        ]
+    ]
+    focus replaced-items
+    ; alert "Done"
+]
+
+create-listing: does [
+    itm: request-text/title/default "Title:" "Item 100"
+    desc: request-text/title/default "Description:" "Ring #100"
+    prc:  to-decimal next find (
+            request-text/title/default "Price:" "$19.99"
+            ) "$"
+    if true = request "Would you like to see a listing of category IDs?" [
+        categories: etsy/api-call get %taxonomy/categories
+        cat-list: copy []
+        foreach category categories/results [
+            append cat-list reduce [
+                category/long_name category/category_id
+            ]
+        ]
+        chosen-category: request-list "Categories" cat-list
+    ]
+    if unset? chosen-category [chosen-category: "69150467"]
+    ctgry: request-text/title/default "Category ID:" form chosen-category
+    flash "Creating item..."
+    etsy/api-call/with post %/listings [
+        quantity: 1 
+        title: itm 
+        description: desc 
+        price: prc 
+        category_id: ctgry 
+        who_made: "i_did" 
+        is_supply: "1" 
+        when_made: "2010_2012" 
+        shipping_template_id: "330"
+    ]
+    unview
+    alert rejoin ["CREATED: " itm ", " desc ", " prc]
+]
+
+delete-listing: does [
+    itm2del: request-text/title "Listing ID #:"
+    either true = request "Really Delete?" [
+        flash "Deleting..."
+        etsy/api-call/with get rejoin [%listings/ itm2del] [
+            method: "DELETE"]
+        unview
+        alert rejoin ["Item " itm2del " deleted."]
+    ] [
+        return
+    ]
+]
+
+get-image: does [
+    found: copy []
+    x: get in (etsy/listings []) 'results  
+    for i 1 (length? x) 1 [  
+        append found (get in x/:i 'title)
+        append found (get in x/:i 'listing_id)
+    ]
+    photo-item-id: request-list "Select Item:" found
+    photo-list: etsy/api-call/with get rejoin [
+        %listings/ photo-item-id "/images"] []
+    either error? try [photo-id: first get in photo-list 'results] [
+        alert "No photo available for that item."
+        return
+    ][
+        photo-info: etsy/api-call/with get the-code: rejoin [
+            %listings/ photo-item-id "/images/ " photo-id
+        ] []
+    ]
+    editor either [] = the-photo: (get in photo-info 'results) [
+        "none"
+    ] [
+        the-photo
+    ]
+]
+
+etsy/as "<your-username>"
+
+view center-face gui: layout [
+    across
+    text 80 right "If" 
+    cond1: drop-down 100 data [
+        "Title" "Description" "Listing ID" "Any Field"
+    ]
+    cond2: drop-down 150 data [
+        "REPLACE ALL" "Contains" "Does NOT Contain" "Equals"
+    ]
+    cond3: field 454 "ring" return
+    text 80 right "Search Text:" search-text: field 720 "ring" [
+        replace-text/text: copy search-text/text show replace-text
+    ] return
+    text 80 right "Replace Text:" replace-text: field 720 "ring" return
+    text 805 "" return
+    box black 805x2 return
+    text 805 "" return
+    text 400 "Found Items:" text 200 "Replaced Items:" return
+    found-items: area  replaced-items: area  return
+    btn "List Raw Data" [editor copy get in (etsy/listings []) 'results]
+    btn "Create Listing" [create-listing]
+    btn "Delete Listing" [delete-listing]
+    btn "Add Sale" [sale true]
+    btn "Remove Sale" [sale false]
+    btn "View Image" [get-image]
+    btn "Replace Description" [replace-items]
+]

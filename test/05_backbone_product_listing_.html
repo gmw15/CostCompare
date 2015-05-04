@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Backbone for Etsy</title>
+</head>
+<body>
+
+    <script id="product-template" type="text/template">
+         <img src="<%= image_medium %>"/>
+         <p>Id:<%= id %></p>
+         <p>Price:<%= price %></p>
+         <p>Title:<%= title %></p>
+         <button class="delete">Remove</button>
+    </script>
+
+
+    <div id="product-list">
+        <ul>
+        </ul>
+    </div>
+
+    <script src="../js/vendor/jquery.js"></script>
+    <script src="../js/vendor/underscore.js"></script>
+    <script src="../js/vendor/backbone.js"></script>
+    <script src="etsy-products.js"></script>
+    <script src="product_listing.js"></script>
+
+    <script>
+
+        var listing = new ProductRowListingView({el: $('#product-list')});
+        
+        listing.collection.add(products);
+        listing.collection.setSortField("title", "ASC");
+        listing.render();
+
+    </script>
+
+
+</body>
+</html>

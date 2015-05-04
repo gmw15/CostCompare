@@ -1,0 +1,6 @@
+<?php
+define('AWS_API_KEY', 'AKIAJLC4FNQ3YYZCDCCA');
+define('AWS_API_SECRET_KEY', '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');
+define('AWS_ASSOCIATE_TAG', 'collegeproj02-20');
+define('AWS_ANOTHER_ASSOCIATE_TAG', 'ANOTHER ASSOCIATE TAG');
+

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Cost Compare</title>
+	<link href = "css/bootstrap.min.css" rel = "stylesheet"/>
+	
+  <script type="text/javascript" src="js/custom.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script type="text/javascript" src="js/ama_functions.js"></script>  
+  
+</head>
+<body>
+<div class = "navbar navbar-inverse navbar-static-top">
+			<div class = "container">
+			
+			<div class="navbar-header">
+			<a href="http://pricedrops.comule.com/" class="navbar-brand">Cost Compare</a>				
+				<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+					<span class = "icon-bar"></span>
+					<span class = "icon-bar"></span>
+					<span class = "icon-bar"></span>
+				</button>
+			</div>	
+				<div class = "collapse navbar-collapse navHeaderCollapse">
+				
+					<ol class = "nav navbar-nav navbar-right">
+					
+					<li><a href = "index.html">Home</a></li>
+					<li><a href = "FindItemsAdvanced.php">Ebay</a></li>
+					<li><a href = "#about" data-toggle="modal">About</a></li>
+					
+					<li><a href = "#contact" data-toggle="modal">Contact Us</a></li>
+					
+					
+				    </ol>
+
+				</div>
+			</div>
+		</div>
+
+<div class = "container">
+<br/>
+			<center><a href="index.html"><img src="header.png" alt ="logo"/></a></center>
+	</div>
+<br/>
+<div class ="row">	
+			<div class="col-md-12">
+			
+			<center>
+        <form class="navbar-form" role="search">
+    <span class="caption">Search:</span>
+    <input type="text" name="search" id="search">
+
+        <span class="caption">Category:</span>
+    <select name="category" id="category">
+      <option value="Blended">ALL</option>
+      <option value="Books">Books</option>
+      <option value="DVD">DVD</option>
+      <option value="Apparel">Apparel</option>
+      <option value="Automotive">Automotive</option>
+      <option value="Electronics">Electronics</option>
+      <option value="GourmetFood">GourmetFood</option>
+      <option value="Kitchen">Kitchen</option>
+      <option value="Music">Music</option>
+      <option value="PCHardware">PCHardware</option>
+      <option value="PetSupplies">PetSupplies</option>
+      <option value="Software">Software</option>
+      <option value="SoftwareVideoGames">SoftwareVideoGames</option>
+      <option value="SportingGoods">SportingGoods</option>
+      <option value="Tools">Tools</option>
+      <option value="Toys">Toys</option>
+      <option value="VHS">VHS</option>
+      <option value="VideoGames">VideoGames</option>
+    </select>
+	
+	
+    <span class="caption">Country:</span>
+    <select name="country" id="country">
+	  <option value="com">USA</option>
+      <option value="co.uk">ENG</option>
+	  <option value="de">DE</option>
+      <option value="ca">CA</option>
+      <option value="fr">FR</option>
+      <option value="co.jp">JP</option>
+      <option value="it">IT</option>
+      <option value="cn">CN</option>
+      <option value="es">ES</option>
+    </select>
+   
+	<button class="btn btn-default" type="submit" id="search-link"><i class="glyphicon glyphicon-search"></i></button>
+        </form>
+		</center>
+        </div>
+
+	</div>
+</div>
+  
+  <div id="container">
+  
+  	<script id="product-template" type="text/template">
+	
+	    <div class="product">
+
+
+         <h2><%= title %></h2>
+		 
+		 <img src="<%= image_medium %>"/>
+		 
+		 <h3>Price: $<%= price %></h3>
+       
+
+        </div>
+
+    </script>
+ 
+			
+			<div class = " container">
+				
+			<div class = "row">
+				
+			<div class = "col-md-6">
+			
+				<center>
+				<br />
+				<br />
+				<a href="http://www.amazon.com/"><img src="amazon1.png" alt="amazon"/></a></center>
+				<div id="results"></div>
+
+			</div>
+			<div class = "col-md-6">
+			<br />
+			<br />
+				<center><a href="http://www.etsy.com"><img src="Etsy2logo1.png" alt="etsy" height="96px"/></a></center>
+			<br />
+			
+
+<ul class = "nav"><li></li></ul>
+</div>
+</div>
+
+		</div>
+		
+	 
+		
+			<div class ="navbar navbar-default navbar-fixed-bottom">
+			<div class = "container">
+			<div id="connect">
+				<p class = "navbar-text pull-right">Site built by Chicago Team</p>
+		</div>
+		</div>
+		</div>
+
+		<div class = "modal fade" id ="about" role="dialog">
+			<div class = "modal-dialog">
+				<div class = "modal-content">
+					<div class = "modal-header">
+						<h4>About Us</h4>
+					</div>
+					<div class = "modal-body">
+					<p>
+						Cost Compare is a cost comparison site, designed as a part of our Team Project module. We came up with this idea as we are students, and we, ourselves are looking for ways to save money on our favourite websites.<br /><br />						
+					
+						Glen Ward x12436692<br />
+						Stephen Chapman x12343316<br />
+						Ricardo O'Hara Camones x12425828<br />
+						Ciaran Corcoran x10377639
+					</p>
+					</div>
+					<div class = "modal-footer">
+						<a class = "btn btn-primary" data-dismiss = "modal" >Close</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<div class = "modal fade" id ="contact" role="dialog">
+			<div class = "modal-dialog">
+				<div class = "modal-content">
+					<div class = "modal-header">
+						<h4>Contact Us</h4>
+					</div>
+					<div class = "modal-body">
+						<div class = "form-group">
+							<label for = "contact-name" class = "col-lg-2 control-label"> Name:</label>
+							<div class = "col-lg-10">
+								<input type = "text" class = "form-control" id = "contact-name" placeholder = "Full Name">
+							</div>
+
+						</div>
+						<br/>
+						<br/>
+						<div class = "form-group">
+							<label for = "contact-email" class = "col-lg-2 control-label"> Email:</label>
+							<div class = "col-lg-10">
+								<input type = "email" class = "form-control" id = "contact-email" placeholder = "you@email.com">
+							</div>
+
+						</div>
+						<br/>
+						<br/>
+						<div class = "form-group">
+							<label for = "contact-message" class = "col-lg-2 control-label"> Message:</label>
+							<div class = "col-lg-10">
+							<textarea class = "form-control" row = "15"></textarea>
+							</div>
+
+						</div>
+						<br/>
+						<br/>
+					</div>
+					<div class = "modal-footer">
+						<a class = "btn btn-default" data-dismiss = "modal" >Close</a>
+						<a class = "btn btn-primary" data-dismiss = "modal" >Send</a>
+					</div>
+				</div>
+			</div>
+		</div>		
+		
+		
+		
+		<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src = "js/bootstrap.js"></script>
+	
+	<script src="js/vendor/jquery.js"></script>
+
+    <script src="js/vendor/bootstrap.js"></script>
+
+    <script src="js/vendor/underscore.js"></script>
+
+    <script src="js/vendor/backbone.js"></script>
+
+	<script src="js/vendor/jquery.blockUI.js"></script>
+
+	
+
+	<script src="js/etsy-api.js"></script>
+
+	<script src="js/etsy-backbone.js"></script>
+
+	<script src="js/search-control.js"></script>
+
+	<script src="js/sort-control.js"></script>
+
+	<script src="js/etsy-app.js"></script>
+	
+	<script>
+		
+	</script>
+	
+</body>
+</html>

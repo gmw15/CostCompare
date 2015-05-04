@@ -1,0 +1,8 @@
+http://webservices.amazon.com/onca/xml?
+Service=AWSECommerceService&
+AWSAccessKeyId=AKIAJLBE2VJ4UW65XVHA&
+Operation=ItemSearch&
+Keywords=Rocket&
+SearchIndex=Toys&
+Timestamp=2014-10-25T19%3A09%3A00Z&
+Signature=+o2bfzXq+Qvou2nBItmoSSm6qvCUhjb3SxIObtjx

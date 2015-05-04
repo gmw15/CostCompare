@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>findItemsAdvanced</title>
+<script src="./js/jQuery.js"></script>
+<script src="./js/jQueryUI/ui.tablesorter.js"></script>
+<script src="FindItemsAdvanced.php"></script>
+<link rel="stylesheet" href="./css/flora.all.css" type="text/css" media="screen" title="Flora (Default)">
+
+</head>
+<body>
+
+
+
+<form action="FindItemsAdvanced.php" method="post">
+<table cellpadding="2" border="0">
+  <tr>
+    <th>Query</th>
+    <th>Site to Search</th>
+    <th>Max Price</th>
+    <th>Items per range</th>
+    <th>Debug</th>
+  </tr>
+  <tr>
+    <td><input type="text" name="Query" value="ipod"></td>
+    <td>
+    <select name="GlobalID">
+      <option value="EBAY-AU">Australia - EBAY-AU - AUD</option>
+      <option value="EBAY-ENCA">Canada (English) - EBAY-ENCA - CAD</option>
+      <option value="EBAY-DE">Germany - EBAY-DE - EUR</option>
+      <option value="EBAY-GB">United Kingdom - EBAY-GB - GBP</option>
+      <option value="EBAY-US">United States - EBAY-US - USD</option>
+      </select>
+    </td>
+    <td><input type="text" name="MaxPrice" value="500"></td>
+    <td>
+    <select name="ItemsPerRange">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option selected value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      </select>
+    </td>
+    <td>
+    <select name="Debug">
+      <option value="1">true</option>
+      <option selected value="0">false</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><INPUT type="submit" name="submit" value="Search">
+    </td>
+  </tr>
+</table>
+</form>
+
+</body>
+</html>
